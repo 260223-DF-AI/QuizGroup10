@@ -132,7 +132,18 @@ def display_question(question, number, total):
     D) option D
     """
     # TODO: Implement this function
-    pass
+    question_text = f'''
+    --------------------------------------------------
+    Question {number} of {total}
+    --------------------------------------------------
+    [question text]
+    
+    A) {question["options"][0]}
+    B) {question["options"][1]}
+    C) {question["options"][2]}
+    D) {question["options"][3]}
+
+'''
 
 
 def get_user_answer():
@@ -146,7 +157,12 @@ def get_user_answer():
         A valid answer in uppercase (A, B, C, or D)
     """
     # TODO: Implement input validation loop
-    pass
+    while (True):
+        user_input = input("Enter your answer here >")
+        if not user_input.upper() in ["A","B","C","D"]: # check to make sure its valid
+            print("invalid input, try again")
+        else: # returns the user input as upper case letter
+            return user_input.upper()
 
 
 def check_answer(question, user_answer):
@@ -161,7 +177,7 @@ def check_answer(question, user_answer):
         True if correct, False otherwise
     """
     # TODO: Compare user_answer with question["answer"]
-    pass
+    return (question["answer"].upper() == user_answer)
 
 
 def display_feedback(question, user_answer, is_correct):
@@ -173,8 +189,13 @@ def display_feedback(question, user_answer, is_correct):
     Always show the explanation.
     """
     # TODO: Display appropriate feedback based on is_correct
-    pass
-
+    if check_answer(question, user_answer) :
+        is_correct = True
+        print("Correct ✅")
+    else:
+        answer = question["answer"]
+        print(f"Incorrect ❌ The answer was {answer}")
+    print(f"Reason:{question["explanation"]}")
 
 # =============================================================================
 # TODO: Task 3 - Game Loop (Driver 1)
