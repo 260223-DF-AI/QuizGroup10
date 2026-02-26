@@ -299,7 +299,7 @@ def display_results(score, total):
     if(grade == 'A'):
         encouraging_message = "Keep it up, you're doing well!"
     else:
-        encouraging_message = "Better not be seeing this."
+        encouraging_message = "Had a good try! Hope you don't have to see this."
     print(f"""
     Score: {score} / {total}
     Percentage: {percent:.1f}
