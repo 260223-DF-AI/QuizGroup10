@@ -99,7 +99,7 @@ def create_question_bank():
         },
         {
             "question": "What is the correct syntax for a do while loop in Python",
-            "options": ["A) do: (..) while (..)", "B) do \{\} while(..)", "C) while(..) do \{\}", "D) do: for(..)"],
+            "options": ["A) do: (..) while (..)", "B) do {} while(..)", "C) while(..) do {}", "D) do: for(..)"],
             "answer": "B",
             "explanation": "The do comes first, enclosed in curly braces, then use the while loop"
         }
@@ -136,14 +136,15 @@ def display_question(question, number, total):
     --------------------------------------------------
     Question {number} of {total}
     --------------------------------------------------
-    [question text]
+    {question['question']}
     
-    A) {question["options"][0]}
-    B) {question["options"][1]}
-    C) {question["options"][2]}
-    D) {question["options"][3]}
+    {question["options"][0]}
+    {question["options"][1]}
+    {question["options"][2]}
+    {question["options"][3]}
 
 '''
+    print(question_text)
 
 
 def get_user_answer():
@@ -189,12 +190,11 @@ def display_feedback(question, user_answer, is_correct):
     Always show the explanation.
     """
     # TODO: Display appropriate feedback based on is_correct
-    if check_answer(question, user_answer) :
-        is_correct = True
-        print("Correct ✅")
+    if is_correct:
+        print("\033[92mCorrect ✅\033[0m")
     else:
         answer = question["answer"]
-        print(f"Incorrect ❌ The answer was {answer}")
+        print(f"\033[91mIncorrect ❌ The answer was {answer}\033[0m")
     print(f"Reason:{question["explanation"]}")
 
 # =============================================================================
@@ -234,7 +234,14 @@ def run_quiz(questions):
     
     # TODO: Implement the game loop
     # Hint: Use a for loop with enumerate
-    
+    for i, question in enumerate(questions):
+        display_question(question, i, len(questions))
+        ans = get_user_answer()
+        correct = check_answer(question, ans)
+        display_feedback(question, ans, correct)
+        if correct:
+            score += 1
+
     return score, total
 
 
@@ -261,7 +268,16 @@ def calculate_grade(score, total):
         Letter grade as string
     """
     # TODO: Calculate percentage and return grade
-    pass
+    percent = (float(score) / total) * 100
+    if(percent >= 90):
+        return 'A'
+    elif(percent >= 80):
+        return 'B'
+    elif(percent >= 70):
+        return 'C'
+    elif(percent >= 60):
+        return 'D'
+    return 'F'
 
 
 def display_results(score, total):
@@ -275,9 +291,21 @@ def display_results(score, total):
     - Encouraging message based on performance
     """
     # TODO: Calculate percentage and grade
+    grade = calculate_grade(score, total)
+    percent = (float(score) / total) * 100
     # TODO: Display formatted results
     # TODO: Add encouragement message
-    pass
+    encouraging_message = ""
+    if(grade == 'A'):
+        encouraging_message = "Keep it up, you're doing well!"
+    else:
+        encouraging_message = "Better not be seeing this."
+    print(f"""
+    Score: {score} / {total}
+    Percentage: {percent:.1f}
+    Letter Grade: {grade}
+    {encouraging_message}
+""")
 
 
 # =============================================================================
