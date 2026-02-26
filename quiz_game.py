@@ -3,6 +3,8 @@
 import random
 import os
 
+
+biggest_score = -float('inf') # var to count high score
 """
 Python Quiz Game
 ----------------
@@ -370,6 +372,11 @@ def main():
     # Display results
     display_results(score, total)
     
+    if score > biggest_score:
+        score = biggest_score
+        print(f"YOU GOT THE HIGH SCORE! of {score}")
+    else:
+        print(f"HIGH SCORE: {biggest_score} v.s. your score: {score}")
     # Ask to play again
     play_again = input("\nWould you like to play again? (yes/no): ")
     if play_again.lower() in ["yes", "y"]:
