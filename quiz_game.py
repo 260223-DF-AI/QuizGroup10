@@ -1,6 +1,6 @@
 # quiz_game.py - Python Quiz Game
 # Starter code for e004-exercise-control-flow (Collaborative Project)
-
+import os
 """
 Python Quiz Game
 ----------------
@@ -111,7 +111,7 @@ def create_question_bank():
 # TODO: Task 2 - Core Game Functions (Driver 2)
 # =============================================================================
 
-def display_question(question, number, total):
+def display_question(question, number, total): # use multi-line string to format the string
     """
     Display a question and its options.
     
@@ -178,7 +178,7 @@ def check_answer(question, user_answer):
         True if correct, False otherwise
     """
     # TODO: Compare user_answer with question["answer"]
-    return (question["answer"].upper() == user_answer)
+    return (question["answer"].upper() == user_answer) # compare answer to user answer
 
 
 def display_feedback(question, user_answer, is_correct):
@@ -190,9 +190,9 @@ def display_feedback(question, user_answer, is_correct):
     Always show the explanation.
     """
     # TODO: Display appropriate feedback based on is_correct
-    if is_correct:
+    if is_correct: # if answer is correct, then give them the green
         print("\033[92mCorrect ✅\033[0m")
-    else:
+    else: # incorrect answer given
         answer = question["answer"]
         print(f"\033[91mIncorrect ❌ The answer was {answer}\033[0m")
     print(f"Reason:{question["explanation"]}")
@@ -235,12 +235,14 @@ def run_quiz(questions):
     # TODO: Implement the game loop
     # Hint: Use a for loop with enumerate
     for i, question in enumerate(questions):
-        display_question(question, i, len(questions))
-        ans = get_user_answer()
-        correct = check_answer(question, ans)
-        display_feedback(question, ans, correct)
-        if correct:
+        display_question(question, i, len(questions)) # display question
+        ans = get_user_answer() # get answer from user
+        correct = check_answer(question, ans) # validation
+        display_feedback(question, ans, correct) # show feedback
+        if correct: # counter for score
             score += 1
+        input("press enter to move on to the next question...") # stop the user from clearing the screen instantly after answering question
+        os.system('cls' if os.name == 'nt' else 'clear') # logic to clear screen for all systems
 
     return score, total
 
