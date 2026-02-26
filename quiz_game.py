@@ -1,6 +1,7 @@
 # quiz_game.py - Python Quiz Game
 # Starter code for e004-exercise-control-flow (Collaborative Project)
 
+import time
 """
 Python Quiz Game
 ----------------
@@ -234,14 +235,21 @@ def run_quiz(questions):
     
     # TODO: Implement the game loop
     # Hint: Use a for loop with enumerate
+    total_time = 0
     for i, question in enumerate(questions):
         display_question(question, i, len(questions))
+        time_start = time.perf_counter()
         ans = get_user_answer()
+        time_end = time.perf_counter()
+        question_timer = time_end - time_start
         correct = check_answer(question, ans)
         display_feedback(question, ans, correct)
         if correct:
-            score += 1
+            score += 1 
+        total_time += question_timer
+        print(f"Time taken: {question_timer:.2f}s")
 
+    print(f"Total time taken for all questions: {total_time:.2f}")
     return score, total
 
 
