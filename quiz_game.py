@@ -1,6 +1,8 @@
 # quiz_game.py - Python Quiz Game
 # Starter code for e004-exercise-control-flow (Collaborative Project)
 
+import random
+
 """
 Python Quiz Game
 ----------------
@@ -234,8 +236,10 @@ def run_quiz(questions):
     
     # TODO: Implement the game loop
     # Hint: Use a for loop with enumerate
+    random.shuffle(questions)
     for i, question in enumerate(questions):
-        display_question(question, i, len(questions))
+        display_question(
+        question, i, len(questions))
         ans = get_user_answer()
         correct = check_answer(question, ans)
         display_feedback(question, ans, correct)
