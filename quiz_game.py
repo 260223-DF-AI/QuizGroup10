@@ -39,7 +39,8 @@ def create_question_bank():
             "question": "What keyword is used to define a function in Python?",
             "options": ["A) func", "B) def", "C) function", "D) define"],
             "answer": "B",
-            "explanation": "The 'def' keyword is used to define functions in Python."
+            "explanation": "The 'def' keyword is used to define functions in Python.",
+            'category' : "Python Syntax"
         },
         # TODO: Add 9 more questions covering:
         # - Python syntax and indentation
@@ -52,61 +53,70 @@ def create_question_bank():
             "question": "How many tabs are needed after writing the function name if there's 4 spaces in a tab",
             "options": ["A) 1", "B) 2", "C) 3", "D) 4"],
             "answer": "A",
-            "explanation": "Python requires 1 tab"
+            "explanation": "Python requires 1 tab",
+            'category': "Python Syntax"
         },
 
         {
             "question": "What is a string in python",
             "options": ["A) float number", "B) objects that contains character(s) ", "C) algorithm", "D) whole number"],
             "answer": "B",
-            "explanation": "Strings are a sequence of characters in python"
+            "explanation": "Strings are a sequence of characters in python",
+            'category': "Python Syntax"
         },
 
         {
             "question": "How do you find the type of an object?",
             "options": ["A) which(object)", "B) print(object)", "C) object.type()", "D) use type(object)"],
             "answer": "D",
-            "explanation": "the type() function will return the type of the object passed inside"
+            "explanation": "the type() function will return the type of the object passed inside",
+            "category": "Other"
         },
 
         {
-            "question": "What keyword is used to define a function in Python?",
-            "options": ["A) func", "B) def", "C) function", "D) define"],
+            "question": "What keyword do you use to initialize a variable in python?",
+            "options": ["A) The type of the variable", "B) No keyword", "C) var", "D) let"],
             "answer": "B",
-            "explanation": "The 'def' keyword is used to define functions in Python."
+            "explanation": "There is no keyword required because python variable are dynamically typed.",
+            "category": "Variables and Operators"
         },
 
         {
             "question": "What is \"10\" + \"23\" in Python?",
             "options": ["A) error", "B) undefined", "C) 1023", "D) 23"],
             "answer": "C",
-            "explanation": "Since both data types are string, they will concatenated instead of added like numbers"
+            "explanation": "Since both data types are string, they will concatenated instead of added like numbers",
+            "category": "Variables and Operators"
         },
 
         {
             "question": "how do you find the occurences of a character ch in a string S in base Python?",
             "options": ["A) s.findAll(ch) ", "B) s.count(ch)", "C) s.find(ch)", "D) s.charAt(ch)"],
             "answer": "B",
-            "explanation": "The count function finds the number of occurences."
+            "explanation": "The count function finds the number of occurences.",
+            "category": "Other"
         },
 
         {
             "question": "Which symbol is the greater than sign?",
             "options": ["A) ==", "B) <", "C) >", "D) ++"],
             "answer": "C",
-            "explanation": "> represents the greater than in Python"
+            "explanation": "> represents the greater than in Python",
+            "category": "Variables and Operators"
         },
         {
             "question": "How to write a single line comment in Python?",
             "options": ["A) !--", "B) //", "C) !-", "D) #"],
             "answer": "D",
-            "explanation": "# is the Python way to write a single comment, the others are from other languages"
+            "explanation": "# is the Python way to write a single comment, the others are from other languages",
+            "category": "Python Syntax"
         },
         {
             "question": "What is the correct syntax for a do while loop in Python",
             "options": ["A) do: (..) while (..)", "B) do {} while(..)", "C) while(..) do {}", "D) do: for(..)"],
             "answer": "B",
-            "explanation": "The do comes first, enclosed in curly braces, then use the while loop"
+            "explanation": "The do comes first, enclosed in curly braces, then use the while loop",
+            "category": "Control Flow"
         }
     ]
     return questions
@@ -228,6 +238,16 @@ def run_quiz(questions):
     """
     score = 0
     total = len(questions)
+
+    categories = {
+        1: "Python Syntax",
+        2: "Data Types",
+        3: "Control Flow",
+        4: "Functions and Parameters",
+        5: "Variables and Operators",
+        6: "Other",
+        7: "All"
+    }
     
     # Welcome message
     print("=" * 50)
@@ -236,14 +256,36 @@ def run_quiz(questions):
     print(f"\nYou will answer {total} questions.")
     print("Enter A, B, C, or D for each question.\n")
     input("Press Enter to start...")
+    category_choice = -1
+    try:
+        category_choice = int(input("""
+        Select a category to practice:
+        1. Python Syntax
+        2. Data Types
+        3. Control Flow
+        4. Functions and Parameters
+        5. Variables and Operators
+        6. Other
+        7. All
+    """))
+    except Exception:
+        print("Error")
+        exit(-1)
+    
+    if(category_choice <= 0 and category_choice >= 8):
+        print("Invalid selection, practicing all questions")
+        exit(-1)
+        
     
     # TODO: Implement the game loop
     # Hint: Use a for loop with enumerate
     total_time = 0 # start timer at 0s 
 
     random.shuffle(questions)
-    for i, question in enumerate(questions, start= 1):
-        display_question(question, i, len(questions)) # display question
+    for i, question in enumerate(questions):
+        if(question['category'] != categories[category_choice]):
+            continue
+        display_question(question, i+1, len(questions)) # display question
         time_start = time.perf_counter() # first clock recorded at this line
         ans = get_user_answer() # get answer from user
         time_end = time.perf_counter() # second clock recorded at this line
