@@ -282,10 +282,10 @@ def run_quiz(questions):
     total_time = 0 # start timer at 0s 
 
     random.shuffle(questions)
-    for i, question in enumerate(questions):
+    for i, question in enumerate(questions, start=1):
         if(question['category'] != categories[category_choice]):
             continue
-        display_question(question, i+1, len(questions)) # display question
+        display_question(question, i, len(questions)) # display question
         time_start = time.perf_counter() # first clock recorded at this line
         ans = get_user_answer() # get answer from user
         time_end = time.perf_counter() # second clock recorded at this line
