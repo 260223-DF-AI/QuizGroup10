@@ -338,10 +338,10 @@ def main():
     
     # Display results
     display_results(score, total)
-    
+    global biggest_score
     if score > biggest_score:
-        score = biggest_score
-        print(f"YOU GOT THE HIGH SCORE! of {score}")
+        biggest_score = score
+        print(f"YOU GOT THE HIGH SCORE! of {biggest_score}")
     else:
         print(f"HIGH SCORE: {biggest_score} v.s. your score: {score}")
     # Ask to play again
