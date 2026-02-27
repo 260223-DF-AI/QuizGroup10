@@ -1,7 +1,11 @@
 # quiz_game.py - Python Quiz Game
 # Starter code for e004-exercise-control-flow (Collaborative Project)
+import random
+import os
 
 import time
+
+biggest_score = -float('inf') # var to count high score
 """
 Python Quiz Game
 ----------------
@@ -112,7 +116,7 @@ def create_question_bank():
 # TODO: Task 2 - Core Game Functions (Driver 2)
 # =============================================================================
 
-def display_question(question, number, total):
+def display_question(question, number, total): # use multi-line string to format the string
     """
     Display a question and its options.
     
@@ -179,7 +183,7 @@ def check_answer(question, user_answer):
         True if correct, False otherwise
     """
     # TODO: Compare user_answer with question["answer"]
-    return (question["answer"].upper() == user_answer)
+    return (question["answer"].upper() == user_answer) # compare answer to user answer
 
 
 def display_feedback(question, user_answer, is_correct):
@@ -191,9 +195,9 @@ def display_feedback(question, user_answer, is_correct):
     Always show the explanation.
     """
     # TODO: Display appropriate feedback based on is_correct
-    if is_correct:
+    if is_correct: # if answer is correct, then give them the green
         print("\033[92mCorrect ✅\033[0m")
-    else:
+    else: # incorrect answer given
         answer = question["answer"]
         print(f"\033[91mIncorrect ❌ The answer was {answer}\033[0m")
     print(f"Reason:{question["explanation"]}")
@@ -248,6 +252,17 @@ def run_quiz(questions):
             score += 1 
         total_time += question_timer
         print(f"Time taken: {question_timer:.2f}s")
+        
+    random.shuffle(questions)
+    for i, question in enumerate(questions):
+        display_question(question, i, len(questions)) # display question
+        ans = get_user_answer() # get answer from user
+        correct = check_answer(question, ans) # validation
+        display_feedback(question, ans, correct) # show feedback
+        if correct: # counter for score
+            score += 1
+        input("press enter to move on to the next question...") # stop the user from clearing the screen instantly after answering question
+        os.system('cls' if os.name == 'nt' else 'clear') # logic to clear screen for all systems
 
     print(f"Total time taken for all questions: {total_time:.2f}")
     return score, total
@@ -331,6 +346,11 @@ def main():
     # Display results
     display_results(score, total)
     
+    if score > biggest_score:
+        score = biggest_score
+        print(f"YOU GOT THE HIGH SCORE! of {score}")
+    else:
+        print(f"HIGH SCORE: {biggest_score} v.s. your score: {score}")
     # Ask to play again
     play_again = input("\nWould you like to play again? (yes/no): ")
     if play_again.lower() in ["yes", "y"]:
