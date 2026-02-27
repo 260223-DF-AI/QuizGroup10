@@ -3,6 +3,7 @@
 import random
 import os
 
+import time
 
 biggest_score = -float('inf') # var to count high score
 """
@@ -278,19 +279,27 @@ def run_quiz(questions):
     
     # TODO: Implement the game loop
     # Hint: Use a for loop with enumerate
+    total_time = 0 # start timer at 0s 
+
     random.shuffle(questions)
     for i, question in enumerate(questions):
         if(question['category'] != categories[category_choice]):
             continue
-        display_question(question, i, len(questions)) # display question
+        display_question(question, i+1, len(questions)) # display question
+        time_start = time.perf_counter() # first clock recorded at this line
         ans = get_user_answer() # get answer from user
+        time_end = time.perf_counter() # second clock recorded at this line
+        question_timer = time_end - time_start # find difference between clocks to get seconds it took to answer
+        total_time += question_timer # accumulate the time for all questions
         correct = check_answer(question, ans) # validation
         display_feedback(question, ans, correct) # show feedback
         if correct: # counter for score
             score += 1
+        print(f"Time taken: {question_timer:.2f}s")
         input("press enter to move on to the next question...") # stop the user from clearing the screen instantly after answering question
         os.system('cls' if os.name == 'nt' else 'clear') # logic to clear screen for all systems
 
+    print(f"Total time taken for all questions: {total_time:.2f}s")
     return score, total
 
 
